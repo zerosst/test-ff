@@ -1,1 +1,0 @@
-import{d as n,u as o,o as s,c as a,t as c,e as r}from"./app.8438db16.js";var t={};const u=n({setup(f){const{t:e}=o();return(p,i)=>(s(),a("div",null,c(r(e)("not-found")),1))}});typeof t=="function"&&t(u);export{u as default};
