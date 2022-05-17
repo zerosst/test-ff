@@ -1,5 +1,5 @@
 <template>
-  <video :src="video" controls />
+  <video style="margin:0 auto" :src="video" controls />
   <br>
   <!-- <button @click="transcode">
     Start
