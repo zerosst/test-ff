@@ -17,7 +17,7 @@ let video = $ref<any>();
 let ratios = $ref(0)
 // app state
 const ffmpeg = createFFmpeg({
-  // log: true,
+  log: true,
 });
 ffmpeg.setProgress(({ ratio }) => {
   ratios = ratio
@@ -26,8 +26,11 @@ ffmpeg.setProgress(({ ratio }) => {
 const transcode = async (e: any) => {
   const file = e.target.files[0];
   const { name } = file
-  message = "脚本加载中";
-  await ffmpeg.load();
+  console.log(ffmpeg.isLoaded());
+  if (!ffmpeg.isLoaded()) {
+    message = "脚本加载中";
+    await ffmpeg.load();
+  }
   message = "视频读取中";
   ffmpeg.FS("writeFile", name, await fetchFile(file));
   message = "视频转换中";
