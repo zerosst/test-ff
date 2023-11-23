@@ -15,6 +15,18 @@
     <button btn ml-2 @click="transition('ogv')">
       转换为ogv
     </button>
+    <button btn ml-2 @click="transition('avi')">
+      转换为avi
+    </button>
+    <button btn ml-2 @click="transition('ts')">
+      转换为ts
+    </button>
+    <button btn ml-2 @click="streamfile">
+      输出流文件
+    </button>
+    <button btn ml-2 @click="intercept">
+      截取视频
+    </button>
     <button btn ml-2 @click="download">
       下载视频
     </button>
@@ -81,6 +93,35 @@ const transition = async (type: string) => {
     const data = ffmpeg.FS("readFile", `test.${type}`);
     video = URL.createObjectURL(
       new Blob([data.buffer], { type: `video/${type}` })
+    );
+  } else {
+    console.log('未选择文件');
+  }
+}
+const streamfile = async () => {
+  if (videoName) {
+    message = "视频转换中";
+    await ffmpeg.run("-i", videoName, '-strict', '-2', '-c:v', 'libx264', '-c:a', 'aac', '-f', 'hls', 'test.m3u8');
+    // await ffmpeg.run("-i", videoName, '-c', 'copy', '-map', '0', '-f', '-segment_list', 'test.m3u8', '-segment_time', '2', 'test%03d.ts');
+    message = "视频转换完成";
+    downloadName = 'test.m3u8'
+    const data = ffmpeg.FS("readFile", 'test.m3u8');
+    video = URL.createObjectURL(
+      new Blob([data.buffer], { type: `video/m3u8` })
+    );
+  } else {
+    console.log('未选择文件');
+  }
+}
+const intercept = async () => {
+  if (videoName) {
+    message = "视频截取中";
+    await ffmpeg.run('-ss','00:00:04','-to','00:00:08',"-i", videoName, '-y', '-f', 'mp4', '-vcodec', 'copy', '-acodec','copy', '-q:v','1', 'test2.mp4');
+    message = "视频截取完成";
+    downloadName = 'test2.mp4'
+    const data = ffmpeg.FS("readFile", 'test2.mp4');
+    video = URL.createObjectURL(
+      new Blob([data.buffer], { type: `video/mp4` })
     );
   } else {
     console.log('未选择文件');
