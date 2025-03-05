@@ -1,42 +1,44 @@
-<template>
-  <video style="margin:0 auto" :src="video" controls />
-  <br>
-  <input type="file" id="uploader" @change="transcode">
-  <div mt-3>
-    <button btn @click="transition('webm')">
-      转换为webm
-    </button>
-    <button btn ml-2 @click="transition('mp4')">
-      转换为MP4
-    </button>
-    <button btn ml-2 @click="transition('mkv')">
-      转换为mkv
-    </button>
-    <button btn ml-2 @click="transition('ogv')">
-      转换为ogv
-    </button>
-    <button btn ml-2 @click="transition('avi')">
-      转换为avi
-    </button>
-    <button btn ml-2 @click="transition('ts')">
-      转换为ts
-    </button>
-    <button btn ml-2 @click="streamfile">
-      输出流文件
-    </button>
-    <button btn ml-2 @click="intercept">
-      截取视频
-    </button>
-    <button btn ml-2 @click="download">
-      下载视频
-    </button>
-  </div>
-  <p>{{ message }}</p>
-  <p>{{ '进度' + (ratios * 100).toFixed(2) + '%' }}</p>
-</template>
-
 <script lang="ts" setup>
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import WebTorrent from 'webtorrent/dist/webtorrent.min.js';
+
+const client = new WebTorrent()
+console.log(client,'client');
+// const torrentId = 'magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent'
+const torrentId = 'magnet:?xt=urn:btih:7a257c98c7287886c3740fc901879ba96591ba05&dn=test.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337'
+// const torrentId = 'magnet:?xt=urn:btih:3ac4fea59d5ff7566162a23bc52782e3ee6b5de7&dn=test2.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337'
+navigator.serviceWorker.register('sw.min.js', { scope: './' }).then(reg => {
+  console.log(reg,'reg');
+  
+  const worker:any = reg.active || reg.waiting || reg.installing
+  console.log(worker.state,'worker.state');
+  
+  function checkState(worker:any) {
+    return worker.state === 'activated' && client.createServer({ controller: reg }) && showTorren()
+  }
+  if (!checkState(worker)) {
+    worker.addEventListener('statechange', ({ target }:any) => checkState(target))
+  }
+})
+
+//展示内容
+const showTorren =()=>{
+  console.log(torrentId,'torrentId');
+  
+  client.add(torrentId, function (torrent:any) {
+    console.log(torrent,'torrent');
+    
+  // Torrents can contain many files. Let's use the .mp4 file
+  const file = torrent.files.find(function (file:any) {
+    return file.name.endsWith('.mp4')
+  })
+  console.log(file,'file');
+  
+ // Stream the file in the browser
+ file.streamTo(document.querySelector('#output'))
+})
+
+}
 
 let message = $ref("请上传视频");
 let video = $ref<any>();
@@ -128,7 +130,42 @@ const intercept = async () => {
   }
 }
 </script>
-
+<template>
+  <video id="output" style="margin:0 auto" :src="video" controls />
+  <br>
+  <input type="file" id="uploader" @change="transcode">
+  <div mt-3>
+    <button btn @click="transition('webm')">
+      转换为webm
+    </button>
+    <button btn ml-2 @click="transition('mp4')">
+      转换为MP4
+    </button>
+    <button btn ml-2 @click="transition('mkv')">
+      转换为mkv
+    </button>
+    <button btn ml-2 @click="transition('ogv')">
+      转换为ogv
+    </button>
+    <button btn ml-2 @click="transition('avi')">
+      转换为avi
+    </button>
+    <button btn ml-2 @click="transition('ts')">
+      转换为ts
+    </button>
+    <button btn ml-2 @click="streamfile">
+      输出流文件
+    </button>
+    <button btn ml-2 @click="intercept">
+      截取视频
+    </button>
+    <button btn ml-2 @click="download">
+      下载视频
+    </button>
+  </div>
+  <p>{{ message }}</p>
+  <p>{{ '进度' + (ratios * 100).toFixed(2) + '%' }}</p>
+</template>
 <style>
 
 </style>
