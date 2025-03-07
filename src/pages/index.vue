@@ -5,13 +5,13 @@ import WebTorrent from 'webtorrent/dist/webtorrent.min.js';
 const client = new WebTorrent()
 console.log(client,'client');
 // const torrentId = 'magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent'
-const torrentId = 'magnet:?xt=urn:btih:7a257c98c7287886c3740fc901879ba96591ba05&dn=test.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337'
-// const torrentId = 'magnet:?xt=urn:btih:3ac4fea59d5ff7566162a23bc52782e3ee6b5de7&dn=test2.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337'
+// const torrentId = 'magnet:?xt=urn:btih:94527f05d7bab018799fbec66ec7e20ee41b631d&dn=test.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337'
+const torrentId = 'magnet:?xt=urn:btih:b79a1f5903569d9163541a417450bbce23c8a0f9&dn=LegalPorno+-+Polly+Yangs+(07.03.2025)+rq.mp4&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.tracker.cl%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.filemail.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com'
 navigator.serviceWorker.register('sw.min.js', { scope: './' }).then(reg => {
   console.log(reg,'reg');
   
   const worker:any = reg.active || reg.waiting || reg.installing
-  console.log(worker.state,'worker.state');
+  console.log(worker.state,'worker.state1');
   
   function checkState(worker:any) {
     return worker.state === 'activated' && client.createServer({ controller: reg }) && showTorren()
@@ -65,7 +65,7 @@ const transcode = async (e: any) => {
   ffmpeg.FS("writeFile", name, await fetchFile(file));
   message = "视频读取完成";
   videoName = name
-  const data = ffmpeg.FS("readFile", name);
+  const data:any = ffmpeg.FS("readFile", name);
   video = URL.createObjectURL(
     new Blob([data.buffer], { type: "video/mp4" })
   );
@@ -92,7 +92,7 @@ const transition = async (type: string) => {
     await ffmpeg.run("-i", videoName, `test.${type}`);
     message = "视频转换完成";
     downloadName = `test.${type}`
-    const data = ffmpeg.FS("readFile", `test.${type}`);
+    const data:any = ffmpeg.FS("readFile", `test.${type}`);
     video = URL.createObjectURL(
       new Blob([data.buffer], { type: `video/${type}` })
     );
@@ -107,7 +107,7 @@ const streamfile = async () => {
     // await ffmpeg.run("-i", videoName, '-c', 'copy', '-map', '0', '-f', '-segment_list', 'test.m3u8', '-segment_time', '2', 'test%03d.ts');
     message = "视频转换完成";
     downloadName = 'test.m3u8'
-    const data = ffmpeg.FS("readFile", 'test.m3u8');
+    const data:any = ffmpeg.FS("readFile", 'test.m3u8');
     video = URL.createObjectURL(
       new Blob([data.buffer], { type: `video/m3u8` })
     );
@@ -121,7 +121,7 @@ const intercept = async () => {
     await ffmpeg.run('-ss','00:00:04','-to','00:00:08',"-i", videoName, '-y', '-f', 'mp4', '-vcodec', 'copy', '-acodec','copy', '-q:v','1', 'test2.mp4');
     message = "视频截取完成";
     downloadName = 'test2.mp4'
-    const data = ffmpeg.FS("readFile", 'test2.mp4');
+    const data:any = ffmpeg.FS("readFile", 'test2.mp4');
     video = URL.createObjectURL(
       new Blob([data.buffer], { type: `video/mp4` })
     );

@@ -5,3 +5,4 @@ declare module '*.vue' {
 }
 
 declare module 'webtorrent/dist/webtorrent.min.js'
+declare module 'parse-torrent'
