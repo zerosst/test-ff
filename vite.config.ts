@@ -10,7 +10,7 @@ import VitePluginCertificate from 'vite-plugin-mkcert';
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
-  // base: '/tests/',
+  base: './',
   server: {
     https: true,
     // 服务配置
