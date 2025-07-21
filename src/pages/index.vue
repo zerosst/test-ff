@@ -1,44 +1,44 @@
 <script lang="ts" setup>
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
-import WebTorrent from 'webtorrent/dist/webtorrent.min.js';
+// import WebTorrent from 'webtorrent/dist/webtorrent.min.js';
 
-const client = new WebTorrent()
-console.log(client,'client');
+// const client = new WebTorrent()
+// console.log(client,'client');
 // const torrentId = 'magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent'
 // const torrentId = 'magnet:?xt=urn:btih:94527f05d7bab018799fbec66ec7e20ee41b631d&dn=test.mp4&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337'
-const torrentId = 'magnet:?xt=urn:btih:b79a1f5903569d9163541a417450bbce23c8a0f9&dn=LegalPorno+-+Polly+Yangs+(07.03.2025)+rq.mp4&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.tracker.cl%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.filemail.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com'
-navigator.serviceWorker.register('sw.min.js', { scope: './' }).then(reg => {
-  console.log(reg,'reg');
+// const torrentId = 'magnet:?xt=urn:btih:7a257c98c7287886c3740fc901879ba96591ba05&dn=test.mp4&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com'
+// navigator.serviceWorker.register('sw.min.js', { scope: './' }).then(reg => {
+//   console.log(reg,'reg');
   
-  const worker:any = reg.active || reg.waiting || reg.installing
-  console.log(worker.state,'worker.state1');
+//   const worker:any = reg.active || reg.waiting || reg.installing
+//   console.log(worker.state,'worker.state1');
   
-  function checkState(worker:any) {
-    return worker.state === 'activated' && client.createServer({ controller: reg }) && showTorren()
-  }
-  if (!checkState(worker)) {
-    worker.addEventListener('statechange', ({ target }:any) => checkState(target))
-  }
-})
+//   function checkState(worker:any) {
+//     return worker.state === 'activated' && client.createServer({ controller: reg }) && showTorren()
+//   }
+//   if (!checkState(worker)) {
+//     worker.addEventListener('statechange', ({ target }:any) => checkState(target))
+//   }
+// })
 
 //展示内容
-const showTorren =()=>{
-  console.log(torrentId,'torrentId');
+// const showTorren =()=>{
+//   console.log(torrentId,'torrentId');
   
-  client.add(torrentId, function (torrent:any) {
-    console.log(torrent,'torrent');
+//   client.add(torrentId, function (torrent:any) {
+//     console.log(torrent,'torrent');
     
-  // Torrents can contain many files. Let's use the .mp4 file
-  const file = torrent.files.find(function (file:any) {
-    return file.name.endsWith('.mp4')
-  })
-  console.log(file,'file');
+//   // Torrents can contain many files. Let's use the .mp4 file
+//   const file = torrent.files.find(function (file:any) {
+//     return file.name.endsWith('.mp4')
+//   })
+//   console.log(file,'file');
   
- // Stream the file in the browser
- file.streamTo(document.querySelector('#output'))
-})
+//  // Stream the file in the browser
+//  file.streamTo(document.querySelector('#output'))
+// })
 
-}
+// }
 
 let message = $ref("请上传视频");
 let video = $ref<any>();

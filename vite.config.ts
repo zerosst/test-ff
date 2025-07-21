@@ -10,7 +10,7 @@ import VitePluginCertificate from 'vite-plugin-mkcert';
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
-  // base: '/tests/',
+  base: './',
   server: {
     https: true,
     // 服务配置
@@ -58,7 +58,9 @@ export default defineConfig({
     // see unocss.config.ts for config
     Unocss(),
   ],
-
+  build: {
+    outDir: 'docs'
+  },
   // https://github.com/vitest-dev/vitest
   test: {
     environment: 'jsdom',
